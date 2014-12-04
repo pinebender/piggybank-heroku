@@ -18,9 +18,10 @@ else:
 	SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 #celery config
-BROKER_URL = 'amqp://guest@localhost:5672//'
+#amqp://fvokkozo:RiAjQZu5gihXLOmZvURE-99ImQJir7-F@tiger.cloudamqp.com/fvokkozo
+BROKER_URL=os.environ['CLOUDAMQP_URL'] 
 BROKER_VHOST = '/'
-CELERY_RESULT_BACKEND = 'amqp://guest@localhost:5672//'
+CELERY_RESULT_BACKEND=os.environ['CLOUDAMQP_URL']
 CELERY_ALWAYS_EAGER = False
 CELERYBEAT_SCHEDULE = {
     'pay-allowances': {
@@ -29,5 +30,6 @@ CELERYBEAT_SCHEDULE = {
         'args': ()
     	},
 	}
+BROKER_POOL_LIMIT = 1
 
 CELERY_TIMEZONE = 'UTC'
