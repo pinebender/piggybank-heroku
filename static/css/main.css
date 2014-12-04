@@ -1,0 +1,77 @@
+@import url("bootstrap.css");
+
+
+body{
+	background-color: #5ca3ff;
+	color: #fff;
+}
+
+
+.frontform{
+	text-align: center;
+}
+
+.heading{
+	text-align: center;
+}
+
+.bankbox{
+	overflow: hidden;
+	text-align: center;
+	padding: 25%;
+	margin-bottom: 10px;
+	color: #5ca3ff;
+	background: url('../../static/img/pbsil.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	font-size: .8em;
+
+}
+
+/*.bankbox:hover{
+	background: url('../../static/img/pbsil-hover.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}*/
+
+/*.bankbox:active{
+	background: url('../../static/img/pbsil-select.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}*/
+
+.bankboxtext{
+	/*overflow: hidden;*/
+	/*padding: -50px;*/
+	word-wrap: break-word;
+	float: left;
+}
+
+.bankboxtext .bankname{
+	color: #999;
+	font-weight: bold;
+}
+
+.bankboxtext .bankname:hover{
+	color: #ccc;
+}
+
+
+
+.infobox{
+	color:#5ca3ff;
+	background-color: #fff;
+	border-radius: 20px;
+	padding:20px;
+}
+
+.deletebutton{
+	color:red;
+}
+
+.purchasebutton{
+	color:green;
+}

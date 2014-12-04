@@ -1,0 +1,89 @@
+<div id="settings{{ bank.id }}">
+
+<h4> Bank Settings </h4>
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<table class="table">
+			<tr>
+				<td>Rename Bank</td>
+				<td>
+					<form id="bankrenameform{{ bank.id }}", role="form" method="POST">
+						{{ bankrenameform.csrf_token }}
+						{{ bankrenameform.bankid(value=bank.id, id="renamebank"~bank.id, form="bankrenameform"~bank.id) }}
+						New Name:  {{ bankrenameform.bankname }}
+						{% if bankrenameform.bankname.errors %}
+							<br>
+							{% for error in bankrenameform.bankname.errors %}
+								<li>{{ error }} </li>
+							{% endfor %}
+						{% endif %}
+					</form>
+				<td>
+					<button class="btn btn-default" id="renamebankbutton{{ bank.id }}" type="submit" form="bankrenameform{{ bank.id }}">
+						<span class="glyphicon glyphicon-ok purchasebutton"></span>
+					</button>
+				</td>
+			<tr>
+				<td>
+					Delete Bank<br>
+					All data will be permanently deleted!
+				</td>
+				<td>
+					<form id="bankdeleteform{{ bank.id }}", role="form" method="POST" >
+						{{ bankdeleteform.csrf_token }}
+						{{ bankdeleteform.bankid(value=bank.id, id="deletebank"~bank.id, form="bankdeleteform"~bank.id) }}			
+						{{ bankdeleteform.password.label }}:  {{bankdeleteform.password }}
+						{% if bankdeleteform.password.errors %}
+							<br>
+							{% for error in bankdeleteform.password.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						{% endif %}
+					</form>
+					</td>
+				<td>
+					<button class="btn btn-default " id="deletebankbutton{{ bank.id }}" type="submit" form="bankdeleteform{{ bank.id}}">
+						<span class="glyphicon glyphicon-remove deletebutton"></span>
+					</button>
+				</td>
+
+			</tr>
+			
+			
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready( function(){
+		  $("#deletebankbutton{{ bank.id }}").click( function(evt) {
+		    evt.preventDefault();
+		    $.ajax({
+		      type: "POST",
+		      dataType: "html",
+		      url: "{{ url_for('delete_bank') }}",
+		      data: $("#bankdeleteform{{ bank.id }}").serialize(),
+		      success: function(data) {
+		        $("#contentbox").html(data);
+		        $("#banklistbox").load("{{ url_for('banks') }}");
+		        }
+		      });
+		    });
+		  $("#renamebankbutton{{ bank.id }}").click( function(evt) {
+		    evt.preventDefault();
+		    $.ajax({
+		      type: "POST",
+		      dataType: "html",
+		      url: "{{ url_for('rename_bank') }}",
+		      data: $("#bankrenameform{{ bank.id }}").serialize(),
+		      success: function(data) {
+		        $("#contentbox").html(data);
+		        $("#navbox").load("{{ url_for('navigationbar') }}", {bankid: "{{ bank.id }}"});
+		        $("#banklistbox").load("{{ url_for('banks') }}");
+		        }
+		      });
+		    });
+		  });		
+	</script>
+</div>
+
+

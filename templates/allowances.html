@@ -1,0 +1,107 @@
+<div id="allowances{{ bank.id }}">
+	{% if bank.allowances.count() %}
+	<h4>Allowances</h4>
+	<table class="table table-striped table-hover">
+		<tr>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Frequency</th>
+			<th>Active</th>
+			<th>Options</th>
+		</tr>
+		{% for allowance in bank.allowances %}
+	 	<tr>
+	 		<td>${{ allowance.amount }}</td>
+	 		
+	 		<td>
+	 			{% if allowance.description != None %}
+	 			{{ allowance.description }}
+	 			{% endif %}
+ 			</td>
+	 		<td>{{ allowance.frequency }}</td>
+	 		<td>
+	 			<button class="btn btn-default" id="toggleallowancebutton{{ allowance.id }}" type="submit" form="allowanceidform{{ allowance.id }}">
+	 				{% if allowance.active == True %} 
+	 				<span class="glyphicon glyphicon-off purchasebutton"></span>
+	 				{% elif allowance.active == False %}
+	 				<span class="glyphicon glyphicon-off deletebutton"></span>
+	 				{% endif %}
+ 				</button>
+			</td>
+			<td>
+				<button class="btn btn-default" id="deleteallowancebutton{{ allowance.id }}" type="submit" form="allowanceidform{{ allowance.id }}">
+					<span class="glyphicon glyphicon-remove deletebutton"></span>
+				</button>
+			</td>	 			
+ 		</tr>
+ 		<form id="allowanceidform{{ allowance.id }}" role="form" method="POST">
+ 			<div class="form-group">
+ 				{{ allowanceidform.csrf_token }}
+ 				{{ allowanceidform.allowanceid(value=allowance.id, id="toggleallowance"~allowance.id, form="allowanceidform"~allowance.id) }}
+			</div>
+ 		</form>
+		<script type="text/javascript">
+		  $(document).ready( function(){
+		    $("#toggleallowancebutton{{ allowance.id }}").click( function(evt) {
+		      evt.preventDefault();
+		      $.ajax({
+		        type: "POST",
+		        dataType: "html",
+		        url: "{{ url_for('toggle_allowance') }}",
+		        data: $("#allowanceidform{{ allowance.id }}").serialize(),
+		        success: function(data) {
+		          $("#contentbox").html(data);
+		          }
+		        });
+		      });
+
+		    $("#deleteallowancebutton{{ allowance.id }}").click( function(evt) {
+		      evt.preventDefault();
+		      $.ajax({
+		        type: "POST",
+		        dataType: "html",
+		        url: "{{ url_for('delete_allowance') }}",
+		        data: $("#allowanceidform{{ allowance.id }}").serialize(),
+		        success: function(data) {
+		          $("#contentbox").html(data);
+		          }
+		        });
+		      });
+		    });
+	    </script>
+		{% endfor %}
+	</table>
+	{% endif %}
+	<h4>Add an Allowance</h4>
+	<form id="addallowanceform{{ bank.id }}" role="form" action="{{ url_for('add_allowance') }}" method="POST">
+		<div class="form-group">
+			{{ addallowanceform.csrf_token }}
+			{{ addallowanceform.amount.label }}
+			{{ addallowanceform.amount(placeholder="Amount", class="form-control") }}
+			{{ addallowanceform.description.label }}
+			{{ addallowanceform.description(placeholder="Description", class="form-control") }}
+			{{ addallowanceform.frequency.label }}
+			{{ addallowanceform.frequency(class="form-control") }}
+			{{ bankidform.bankid(value=bank.id, id="addallowance"~bank.id, form="addallowanceform"~bank.id) }}
+			<button type="submit" id="submitallowancebutton{{ bank.id }}" form="addallowanceform{{ bank.id }}" class="btn btn-default">Add Allowance</button>
+		</div>
+	</form>
+	<script type="text/javascript">
+		$(document).ready( function(){
+		  $("#submitallowancebutton{{ bank.id|safe }}").click( function(evt) {
+		    evt.preventDefault();
+		    $.ajax({
+		      type: "POST",
+		      dataType: "html",
+		      url: "{{ url_for('add_allowance')|safe }}",
+		      data: $("#addallowanceform{{ bank.id|safe }}").serialize(),
+		      success: function(data) {
+		        $("#contentbox").html(data);
+		        $("#banklistbox").load("{{ url_for('banks') }}");
+		        }
+		      });
+		    });
+		  });		
+	</script>
+
+</div>

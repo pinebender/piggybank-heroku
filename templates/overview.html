@@ -1,0 +1,39 @@
+<div id="overview{{ bank.id }}">
+	<h4>Overview: </h4>
+	<div class="row">
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<h4>Recent Deposits</h4>
+			<table class="table table-bordered">
+				<tr>
+					<th>Amount</th>
+					<th>Description</th>
+					<th>Date Deposited</th>
+				</tr>
+				{% for deposit in recentdeposits %}
+				<tr>
+					<td>${{ deposit.amount_deposited }}</td>
+					<td>{{ deposit.description }}</td>
+					<td>{{ deposit.date_deposited.strftime('%b. %d, %Y') }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<h4>Recent Expenses</h4>
+			<table class="table table-bordered">
+				<tr>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Date Purchased</th>
+				</tr>
+				{% for purchase in recentpurchases %}
+				<tr>
+					<td>{{ purchase.name }}</td>
+					<td>${{ purchase.price }}</td>
+					<td>{{ purchase.date_purchased.strftime('%b. %d, %Y') }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+<div class="row">
+	<div class="col-md-2 col-sm-2 col-xs-2" id="banklistbox"></div>
+	<div class="col-md-10 col-sm-10 col-xs-10 infobox">
+		<div class="col-md-12 col-sm-12 col-xs-12" id="navbox"><p>Please select a bank.</p></div>
+		<div class="col-md-12 col-sm-12 col-xs-12" id="contentbox"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready( function(){
+		$("#banklistbox").load("{{ url_for('banks') }}");
+	})
+</script>
+
+
+
+
+{% endblock %}

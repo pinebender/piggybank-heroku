@@ -1,0 +1,58 @@
+<div id="bankselect">
+{% if piggybanks|length > 0 %}
+{% for bank in piggybanks %}
+	<div class="bankbox" id="bankbox{{ bank.id }}">
+		<div class="col-md-12 col-sm-12 col-xs-12 bankboxtext">
+			<p class="bankname" id="bankname{{ bank.id }}">{{ bank.name }}</p>
+			<script type="text/javascript">
+				$(document).ready( function(){
+				  $("#bankbox{{ bank.id|safe }}").click( function() {
+				    $.ajax({
+				      type: "POST",
+				      url: "{{ url_for('navigationbar')|safe }}",
+				      dataType: "html",
+				      data: {
+							bankid: "{{ bank.id|safe }}"
+						},
+				      success: function(data) {
+				        $("#navbox").html(data);
+				        $("#contentbox").load("{{ url_for('overview') }}", {bankid: "{{ bank.id }}"});
+				       	$("[id^=bankbox]").css('background-image', 'url("../../static/img/pbsil.png")');
+				        $("#bankbox{{ bank.id }}").css('background-image', 'url("../../static/img/pbsil-select.png")');
+				      }
+				    });
+				  });
+				});
+			</script>
+			<p id="bankbalance{{ bank.id }}" style="font-weight: bold"> ${{ bank.current_balance }} </p>
+		</div>
+	</div>
+{% endfor %}
+{% endif %}
+
+<h4>Add a PiggyBank</h4>
+<form class="form-inline" id="addbankform" role="form" action="{{ url_for('add_bank') }}" method="POST">
+	<div class="form-group">
+ 	{{ addbankform.hidden_tag() }}
+ 	{{ addbankform.bankname(placeholder="Name", class="form-control")}}
+ 	<button type="submit" id="addbankbutton" form="addbankform" class="btn btn-default">Submit</button>
+ 	</div>
+</form>
+<script type="text/javascript">
+	$(document).ready( function(){
+	 $("#addbankbutton").click( function(evt) {
+	    evt.preventDefault();
+	    $.ajax({
+	      type: "POST",
+	      url: "{{ url_for('add_bank')}}",
+	      dataType: "html",
+		  data: $("#addbankform").serialize(),
+	      success: function(data) {
+	        $("#banklistbox").html(data);
+	      }
+	    });
+	  });
+	});
+</script>
+
+</div>

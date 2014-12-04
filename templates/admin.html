@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2> admin page </h2>
+
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+	<h3>Tools:</h3>
+	</div>
+
+	<div class="col-md-2">
+		<form id="dbreset" method="GET" action="{{ url_for('reset_db') }}">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+			<button type="submit" form="dbreset" id="dbreset_button" class="btn btn-default">Reset Database</button>	
+		</form>
+	</div>
+	<div class="col-md-2">
+		<form id="genusers" method="GET" action="{{ url_for('generate_test_users') }}">
+			<button type="submit" form="genusers" id="genusers_button" class="btn btn-default">Generate Test Users</button>
+		</form>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<h3>Users:</h3>
+		{% if users != None %}
+			{% for user in users %}
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					<p>Name: {{ user.username }} </p>
+				</div>
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					<p>Id: {{ user.id }} </p>
+				</div>
+				<div class="col-md-2 col-sm-2 col-xs-2">
+				 	<p>Parent: {{ user.parent.username }}</p>
+			 	</div>
+			 	<div class="col-md-6 col-sm-6 col-xs-6">
+			 		<p>Children: </p>
+			 		{% for child in user.children %}
+			 		<p> {{ child.username }} | {{ child.id }} </p>
+			 		{% endfor %}
+		 		</div>
+			{% endfor %}
+		{% endif %}
+	</div>	
+</div>
+
+
+
+
+
+
+{% endblock %}
+

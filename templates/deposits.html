@@ -1,0 +1,81 @@
+<div id="deposits{{ bank.id }}">
+	{% if bank.deposits.count() %}
+	<h4>Deposits</h4>
+	<table class="table table-striped table-hover">
+		<tr>		
+			<th>Price</th>
+			<th>Description</th>
+			<th>Date Deposited</th>
+			<th>Options</th>
+		</tr>
+		{% for deposit in bank.deposits %}
+		<tr>
+			<td>${{ deposit.amount_deposited }}</td>
+			<td>
+	 			{% if deposit.description != None %}
+	 			{{ deposit.description }}
+	 			{% endif %}
+ 			</td>
+			<td>{{ deposit.date_deposited.strftime('%b. %d, %Y') }}</td>
+			<td>
+				<button id="deletedepositbutton{{ deposit.id }}" type="submit" class="btn btn-default" form="deletedepositform{{ deposit.id }}">
+					<span class="glyphicon glyphicon-remove deletebutton"></span>
+				</button>
+			</td>
+		</tr>
+		<form id="deletedepositform{{ deposit.id }}" role="form" method="POST">
+			<div class="form-group">
+			{{ depositidform.csrf_token }} 
+			{{ depositidform.depositid(value=deposit.id, id="deletedeposit"~deposit.id, form="deletedepositform"~deposit.id) }}
+			</div>
+		</form>
+		<script type="text/javascript">
+			$(document).ready( function(){
+			  $("#deletedepositbutton{{ deposit.id }}").click( function(evt) {
+			    evt.preventDefault();
+			      $.ajax({
+			        type: "POST",
+			        dataType: "html",
+			        url: "{{ url_for('delete_deposit') }}",
+			        data: $("#deletedepositform{{ deposit.id }}").serialize(),
+			        success: function(data) {
+			          $("#contentbox").html(data);
+			          $("#banklistbox").load("{{ url_for('banks') }}");
+			          }
+			        });
+			      });
+			  });
+		</script>
+		{% endfor %}
+	</table>
+	{% endif %}
+	<h4>Make a Deposit</h4>
+	<form id="adddepositform{{ bank.id }}" role="form" action="" method="POST">
+		<div class="form-group">
+		{{ adddepositform.csrf_token }}
+		{{ adddepositform.amount.label }}
+		{{ adddepositform.amount(placeholder="Amount", class="form-control") }}
+		{{ adddepositform.description.label }}
+		{{ adddepositform.description(placeholder="Description", class="form-control") }}
+		{{ bankidform.bankid(value=bank.id, id="adddeposit"~bank.id, form="adddepositform"~bank.id) }}
+		<button type="submit" id="submitdepositbutton{{ bank.id }}" form="adddepositform{{ bank.id }}" class="btn btn-default">Add Deposit</button>
+		</div>
+	</form>
+	<script type="text/javascript">
+		$(document).ready( function(){
+		  $("#submitdepositbutton{{ bank.id }}").click( function(evt) {
+		    evt.preventDefault();
+		    $.ajax({
+		      type: "POST",
+		      dataType: "html",
+		      url: "{{ url_for('add_deposit') }}",
+		      data: $("#adddepositform{{ bank.id }}").serialize(),
+		      success: function(data) {
+		        $("#contentbox").html(data);
+		        ("#banklistbox").load("{{ url_for('banks') }}");
+		        }
+		      });
+		    });
+		  });		
+	</script>
+</div>

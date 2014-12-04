@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PiggyBank</title>
+		
+		<!-- bootstrap for later use -->
+		<meta charset="utf-8">
+		<link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+		<!-- inclue own CSS AFTER bootstrap to add overrides -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+	</head>
+	<body>
+		<div class="container">
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<h1>PiggyBank</h1>
+				</div>
+			
+				<div class="col-md-10 col-sm-10 col-xs-10">
+					<ul class="nav nav-pills">
+						{% if 'userid' in session %}
+						<li> <a href="{{ url_for('home') }}">Home</a></li>
+							{% if role=="admin" %}
+							<li> <a href="{{ url_for('admin') }}">Admin</a></li>
+							{% endif %}
+						<li> <a href="{{ url_for('logout') }}">Sign Out</a></li>
+						{% endif %}
+<!-- 						{% if 'userid' not in session %}
+						<li> <a href="{{ url_for('login') }}">Login</a></li>
+						<li> <a href="{{ url_for('register') }}">Register</a></li>
+						{% endif %} -->
+						
+					</ul>
+				</div>
+				<div class="col-md-2 col-sm-2 col-xs-2">
+					{% if 'userid' in session %}
+					<p>Hi, {{ username }}.</p>
+					{% endif %}
+				</div>
+			</div>
+					
+			<div>
+				{% block content %}
+				{% endblock %}
+
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						<ul>
+							{% for message in messages %}
+							<li> {{ message }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				{% endwith %}
+			</div>
+			
+			<div>
+				{% include "footer.html" %}
+			</div>
+		
+		</div>
+	</body>
+</html>
+
+

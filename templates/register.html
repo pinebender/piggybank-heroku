@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1> Temporary Registration Page </h1>
+
+<form id="regform" role="form" action="{{url_for('register')}}" method="POST">
+	<h2> Sign In: </h2>
+	{{ regform.hidden_tag() }}
+	<p>{{ regform.username.label }}</p>
+	<p>{{ regform.username(placeholder="Username", class="form-control") }}</p>
+	<p>{{ regform.email.label }}</p>
+	<p>{{ regform.email(placeholder="Email Address", class="form-control") }}</p>
+	<p>{{ regform.password.label }}</p>
+	<p>{{ regform.password(placeholder="Password", class="form-control") }}</p>
+	<p>{{ regform.verify.label }}</p>
+	<p>{{ regform.verify(placeholder="Password", class="form-control") }}</p>
+	<button type="submit" form="regform" class="btn btn-default">Submit</button>
+</form>
+{% if regform.username.errors %}
+	{% for error in regform.username.errors %}
+		<p> {{ error }} </p>
+	{% endfor %}
+{% elif regform.password.errors %}
+	{% for error in regform.password.errors %}
+		<p> {{ error }} </p>
+	{% endfor %}
+{% elif regform.email.errors %}
+	{% for error in regform.email.errors %}
+		<p> {{ error }} </p>
+	{% endfor %}
+
+{% endif %}
+
+{% endblock %}
+

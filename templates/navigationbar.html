@@ -1,0 +1,97 @@
+<div id="navbox">
+	{% if bank.name %}
+	<h2>{{ bank.name }}</h2>
+	{% endif %}
+	<ul class="nav nav-pills" id="navbank{{ bankid }}">
+		<li><a href="#" id="overviewbank{{ bankid }}">Overview</a></li>
+			<script type="text/javascript">
+			$(document).ready( function(){
+			  $("#overviewbank{{ bankid|safe }}").click( function() {
+			    $.ajax({
+			      type: "POST",
+			      url: "{{ url_for('overview')|safe }}",
+			      dataType: "html",
+			      data: {
+						bankid: "{{ bankid|safe }}"
+					},
+			      success: function(data) {
+			        $("#contentbox").html(data);
+			      }
+			    });
+			  });
+			});
+			</script>
+		<li><a href="#" id="depositsbank{{ bankid }}">Deposits</a></li>
+			<script type="text/javascript">
+			  $(document).ready( function() {
+			  	$("#depositsbank{{ bankid|safe }}").click( function(){
+				  	$.ajax({
+				      type: "POST",
+				      url: "{{ url_for('deposits')|safe }}",
+				      dataType: "html",
+				      data: {
+							bankid: "{{ bankid|safe }}"
+						},
+				      success: function(data) {
+				        $("#contentbox").html(data);
+			      	}
+			    });
+			  });
+			});
+		  	</script>  
+		<li><a href="#" id="expensesbank{{ bankid }}">Expenses</a></li>
+			<script type="text/javascript">
+			  $(document).ready( function() {
+			  	$("#expensesbank{{ bankid|safe }}").click( function(){
+				  	$.ajax({
+				      type: "POST",
+				      url: "{{ url_for('expenses')|safe }}",
+				      dataType: "html",
+				      data: {
+							bankid: "{{ bankid|safe }}"
+						},
+				      success: function(data) {
+				        $("#contentbox").html(data);
+			      	}
+			    });
+			  });
+			});
+		  	</script> 
+		<li><a href="#" id="allowancesbank{{ bankid }}">Allowances</a></li>
+			<script type="text/javascript">
+			  $(document).ready( function() {
+			  	$("#allowancesbank{{ bankid|safe }}").click( function(){
+				  	$.ajax({
+				      type: "POST",
+				      url: "{{ url_for('allowances')|safe }}",
+				      dataType: "html",
+				      data: {
+							bankid: "{{ bankid|safe }}"
+						},
+				      success: function(data) {
+				        $("#contentbox").html(data);
+			      	}
+			    });
+			  });
+			});
+		  	</script> 
+		<li><a href="#" id="settingsbank{{ bankid }}">Settings</a></li>
+			<script type="text/javascript">
+			  $(document).ready( function() {
+			  	$("#settingsbank{{ bankid|safe }}").click( function(){
+				  	$.ajax({
+				      type: "POST",
+				      url: "{{ url_for('settings')|safe }}",
+				      dataType: "html",
+				      data: {
+							bankid: "{{ bankid|safe }}"
+						},
+				      success: function(data) {
+				        $("#contentbox").html(data);
+			      	}
+			    });
+			  });
+			});
+		  	</script> 
+	</ul>
+</div>

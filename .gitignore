@@ -1,0 +1,6 @@
+venv
+*.pyc
+config-local.py
+notes.txt
+allowance.sublime-project
+allowance.sublime-workspace
