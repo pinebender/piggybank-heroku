@@ -18,7 +18,7 @@ else:
 	SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 #celery config
-#amqp://fvokkozo:RiAjQZu5gihXLOmZvURE-99ImQJir7-F@tiger.cloudamqp.com/fvokkozo
+
 BROKER_URL=os.environ['CLOUDAMQP_URL'] 
 BROKER_VHOST = '/'
 CELERY_RESULT_BACKEND=os.environ['CLOUDAMQP_URL']
