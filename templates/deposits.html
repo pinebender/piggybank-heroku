@@ -72,7 +72,7 @@
 		      data: $("#adddepositform{{ bank.id }}").serialize(),
 		      success: function(data) {
 		        $("#contentbox").html(data);
-		        ("#banklistbox").load("{{ url_for('banks') }}");
+		        $("#banklistbox").load("{{ url_for('banks') }}");
 		        }
 		      });
 		    });
